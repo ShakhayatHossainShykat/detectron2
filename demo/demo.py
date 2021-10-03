@@ -74,7 +74,7 @@ def get_parser():
 
 
 def test_opencv_video_format(codec, file_ext):
-    with tempfile.TemporaryDirectory(prefix="video_format_test") as dir:
+   with tempfile.TemporaryDirectory(prefix="video_format_test") as dir:
         filename = os.path.join(dir, "test_file" + file_ext)
         writer = cv2.VideoWriter(
             filename=filename,
@@ -90,17 +90,13 @@ def test_opencv_video_format(codec, file_ext):
         return False
 
 
-if __name__ == "__main__":
-    mp.set_start_method("spawn", force=True)
+ mp.set_start_method("spawn", force=True)
     args = get_parser().parse_args()
     setup_logger(name="fvcore")
     logger = setup_logger()
     logger.info("Arguments: " + str(args))
-
     cfg = setup_cfg(args)
-
     demo = VisualizationDemo(cfg)
-
     if args.input:
         if len(args.input) == 1:
             args.input = glob.glob(os.path.expanduser(args.input[0]))
@@ -119,7 +115,6 @@ if __name__ == "__main__":
                     time.time() - start_time,
                 )
             )
-
             if args.output:
                 if os.path.isdir(args.output):
                     assert os.path.isdir(args.output), args.output
@@ -154,8 +149,8 @@ if __name__ == "__main__":
         codec, file_ext = (
             ("x264", ".mkv") if test_opencv_video_format("x264", ".mkv") else ("mp4v", ".mp4")
         )
-        if codec == ".mp4v":
-            warnings.warn("x264 codec not available, switching to mp4v")
+                if codec == ".mpv4":
+            warnings.warn("x264 codec not available switching to mp4v")
         if args.output:
             if os.path.isdir(args.output):
                 output_fname = os.path.join(args.output, basename)
@@ -167,8 +162,7 @@ if __name__ == "__main__":
                 filename=output_fname,
                 # some installation of opencv may not support x264 (due to its license),
                 # you can try other format (e.g. MPEG)
-                fourcc=cv2.VideoWriter_fourcc(*"mp4"),
-                fourcc=cv2.VideoWriter_fourcc(*"mp4v"),
+                fourcc=cv2.VideoWriter_fourcc(*codec),
                 fps=float(frames_per_second),
                 frameSize=(width, height),
                 isColor=True,
