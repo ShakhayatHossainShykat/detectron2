@@ -154,7 +154,8 @@ def test_opencv_video_format(codec, file_ext):
         if args.output:
             if os.path.isdir(args.output):
                 output_fname = os.path.join(args.output, basename)
-                output_fname = os.path.splitext(output_fname)[0] + file_ext
+                output_fname = os.path.splitext(output_fname)[0] + ".avi" #mkv->mp4 ->avi
+                output_fname = os.path.splitext(output_fname)[0] + ".mp4" #mkv->mp4
             else:
                 output_fname = args.output
             assert not os.path.isfile(output_fname), output_fname
@@ -162,7 +163,8 @@ def test_opencv_video_format(codec, file_ext):
                 filename=output_fname,
                 # some installation of opencv may not support x264 (due to its license),
                 # you can try other format (e.g. MPEG)
-                fourcc=cv2.VideoWriter_fourcc(*codec),
+                fourcc=cv2.VideoWriter_fourcc(*"DIVX"), #x264 -> mp4v -> DIVX
+                fourcc=cv2.VideoWriter_fourcc(*"MP4V"), #x264 -> mp4v
                 fps=float(frames_per_second),
                 frameSize=(width, height),
                 isColor=True,
